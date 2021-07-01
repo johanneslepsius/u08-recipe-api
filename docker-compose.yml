@@ -64,6 +64,13 @@ services:
           test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
           retries: 3
           timeout: 5s
+    adminer:
+        image: 'adminer'
+        restart: always
+        ports:
+            - "8080:8080"
+        networks:
+            - sail
     mailhog:
         image: 'mailhog/mailhog:latest'
         ports:
