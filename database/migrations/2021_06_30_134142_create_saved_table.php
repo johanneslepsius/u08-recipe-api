@@ -14,13 +14,15 @@ class CreateSavedTable extends Migration
     public function up()
     {
         Schema::create('saved', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            // $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('recipelist_id');
+            $table->unsignedBigInteger('recipe_id');
             $table->timestamps();
 
-            $table->primary(['user_id', 'recipelist_id']);
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->primary(['recipelist_id', 'recipe_id']);
+            // $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('recipelist_id')->references('id')->on('recipelists');
+            $table->foreign('recipe_id')->references('id')->on('recipes');
         });
     }
 

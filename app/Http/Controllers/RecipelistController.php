@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipelist;
+use App\Models\Recipe;
+use App\Models\Saved;
 use Illuminate\Http\Request;
 
 class RecipelistController extends Controller
@@ -40,10 +42,19 @@ class RecipelistController extends Controller
     {
         $user = $request->user();
 
-        return Recipelist::create([
-            'name' => $request['name'],
-            'user_id' => $user['id']
-        ]);
+        $exists = Recipelist::select('*')
+            ->where('name', $request['name'])
+            ->where('user_id', $user['id'])
+            ->exists();
+
+        if ($exists) {
+            return response('This list already exists!');
+        } else {
+            return Recipelist::create([
+                'name' => $request['name'], 
+                'user_id' => $user['id']
+            ]);
+        }        
     }
 
     /**
@@ -52,9 +63,16 @@ class RecipelistController extends Controller
      * @param  \App\Models\Recipelist  $recipelist
      * @return \Illuminate\Http\Response
      */
-    public function show(Recipelist $recipelist)
+    public function show($id)
     {
-        return $recipelist;
+        $saved = Saved::where('recipelist_id', $id)->get();
+        $recipeIds = [];
+
+        foreach($saved as $singlesaved) {
+            array_push($recipeIds, $singlesaved['recipe_id']);
+        }
+
+        return Recipe::find($recipeIds);
     }
 
     /**

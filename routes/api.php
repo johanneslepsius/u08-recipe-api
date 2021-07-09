@@ -30,5 +30,5 @@ Route::resource('recipes', RecipeController::class);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('recipelists', RecipelistController::class);
     Route::get('/logout', [UserController::class, 'logout']);
-    Route::resource('save', SavedController::class);
+    Route::post('/save', [SavedController::class, 'store']);
 });
