@@ -22,7 +22,8 @@ class RecipeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'label' => $this->faker->words(3, true),
+            'url' => $this->faker->domainName(),
         ];
     }
 }

@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\RecipelistController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SavedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/register', [UserController::class, 'register']);
+Route::get('/login', [UserController::class, 'login']);
+
 Route::resource('recipes', RecipeController::class);
-Route::resource('recipelist', RecipelistController::class);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('recipelists', RecipelistController::class);
+    Route::get('/logout', [UserController::class, 'logout']);
+    Route::resource('save', SavedController::class);
+});

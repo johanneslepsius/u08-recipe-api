@@ -12,9 +12,12 @@ class RecipelistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+    {   
+        $user = $request->user();
+        $recipelists = Recipelist::where('user_id', $user['id'])->get();
+
+        return $recipelists;
     }
 
     /**
@@ -35,7 +38,12 @@ class RecipelistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->user();
+
+        return Recipelist::create([
+            'name' => $request['name'],
+            'user_id' => $user['id']
+        ]);
     }
 
     /**
@@ -46,7 +54,7 @@ class RecipelistController extends Controller
      */
     public function show(Recipelist $recipelist)
     {
-        //
+        return $recipelist;
     }
 
     /**
@@ -69,7 +77,8 @@ class RecipelistController extends Controller
      */
     public function update(Request $request, Recipelist $recipelist)
     {
-        //
+        $recipelist->update($request->all());
+        return($recipelist);
     }
 
     /**
@@ -80,6 +89,6 @@ class RecipelistController extends Controller
      */
     public function destroy(Recipelist $recipelist)
     {
-        //
+        return Recipelist::destroy($recipelist['id']);
     }
 }

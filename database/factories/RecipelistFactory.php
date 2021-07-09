@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Recipelist;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class RecipelistFactory extends Factory
 {
@@ -22,7 +23,8 @@ class RecipelistFactory extends Factory
     public function definition()
     {
         return [
-            
+            'name' => $this->faker->word(),
+            'user_id' => 2,
         ];
     }
 }

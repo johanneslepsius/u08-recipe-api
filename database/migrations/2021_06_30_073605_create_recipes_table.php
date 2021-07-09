@@ -16,7 +16,7 @@ class CreateRecipesTable extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('label');
-            $table->string('url');
+            $table->string('url')->unique();
             $table->timestamps();
         });
     }
