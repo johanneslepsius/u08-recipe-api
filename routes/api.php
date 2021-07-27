@@ -23,9 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/register', [UserController::class, 'register']);
-Route::get('/login', [UserController::class, 'login']);
-
-Route::resource('recipes', RecipeController::class);
+Route::post('/login', [UserController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('recipelists', RecipelistController::class);
