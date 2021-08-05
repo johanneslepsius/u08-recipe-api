@@ -64,7 +64,7 @@ class UserController extends Controller
 
         $response = ['user'=>$user, 'token'=>$token->plainTextToken];
 
-        return response($response, 201);
+        return response()->json($response, 201);
     }
 
     public function logout(Request $request)
@@ -74,9 +74,10 @@ class UserController extends Controller
         // return response()->json([
             // 'message' => 'Logged out!'
         // ]);
-        // Auth::logout();
-        $request->user()->currentAccessToken()->delete();
-        return response('logged out');
+        Auth::logout();
+        // $request->user()->currentAccessToken()->delete();
+        
+        return response()->json(['message'=>'Logged out'], 200);
 
     }
 
