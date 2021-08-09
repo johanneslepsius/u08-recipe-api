@@ -31,12 +31,12 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Login Successful',
                 'token' => $token,
+                'user'=> $user
             ], 200);
         }
 
         return response()->json([
-                'message'=>'Login failed',
-                'credentials'=>$credentials,
+                'message'=>'Login failed'
             ], 401);
     }
 
@@ -62,25 +62,18 @@ class UserController extends Controller
 
         $token = $user->createToken('token');
 
-        $response = ['user'=>$user, 'token'=>$token->plainTextToken];
-
-        return response()->json($response, 201);
+        return response()->json([
+            'message'=>'Registration successful'
+            'user'=>$user,
+            'token'=>$token->plainTextToken
+        ], 201);
     }
 
     public function logout(Request $request)
     {
-        // auth()->user()->tokens()->logout();
-// 
-        // return response()->json([
-            // 'message' => 'Logged out!'
-        // ]);
-        // Auth::logout();
         if ($request->user()->currentAccessToken()->delete()) {
             return response()->json(['message'=>'Logged out'], 200);
         }
-        // $request->user()->currentAccessToken()->delete();
-
-
     }
 
     /**
