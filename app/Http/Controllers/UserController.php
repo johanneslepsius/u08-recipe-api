@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -16,18 +19,26 @@ class UserController extends Controller
      */
 
     public function login (Request $request) {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        // $rules = [
+            // 'email' => ['required', 'email'],
+            // 'password' => ['required'],
+        // ];
 
-        $user = User::where('email', $credentials['email'])->firstOrFail();
+        // $validator = Validator::make($request->all(), $rules);
+// 
+        // if ($validator->fails()) {
+            // $messages = $validator->messages();
+            // $response = $messages->all();
+            // return response()->json([
+                // 'message' => $response,
+            // ], 400);
+        // }
+
+        $user = User::where('email', $request['email'])->firstOrFail();
 
         $token = $user->createToken('token')->plainTextToken;
 
-        if (Auth::attempt($credentials)) {
-            // $request->session()->regenerate();
-
+        if (Auth::attempt($request->all())) {
             return response()->json([
                 'message' => 'Login Successful',
                 'token' => $token,
@@ -36,7 +47,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-                'message'=>'Login failed'
+                'message'=>'Login failed, try another username or password.'
             ], 401);
     }
 
@@ -48,25 +59,45 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-        $fields = $request->validate([
-            'name'=>'required|string',
+    
+        $rules = [
+            'name'=>'required|string|unique:users',
             'email'=>'required|string|unique:users,email',
             'password'=>'required|string'
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            $response = $messages->all();
+            return response()->json([
+                'message' => $response,
+            ], 409);
+        }
 
         $user = User::create([
-            'name'=>$fields['name'],
-            'email'=>$fields['email'],
-            'password'=>bcrypt($fields['password'])
+            'name'=>$request['name'],
+            'email'=>$request['email'],
+            'password'=>bcrypt($request['password'])
         ]);
 
         $token = $user->createToken('token');
 
+        if ($user) {
+            return response()->json([
+                'message'=>'Registration successful',
+                'user'=>$user,
+                'token'=>$token->plainTextToken
+            ], 201);
+        }
+        
         return response()->json([
-            'message'=>'Registration successful'
-            'user'=>$user,
-            'token'=>$token->plainTextToken
-        ], 201);
+                'message'=>'Registration successful',
+                'user'=>$user,
+                'token'=>$token->plainTextToken
+            ], 201);
+        
     }
 
     public function logout(Request $request)
