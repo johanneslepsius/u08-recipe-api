@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Recipelist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -80,6 +81,11 @@ class UserController extends Controller
             'name'=>$request['name'],
             'email'=>$request['email'],
             'password'=>bcrypt($request['password'])
+        ]);
+
+        Recipelist::create([
+            'name'=>'My first List',
+            'user_id'=>$user['id']
         ]);
 
         $token = $user->createToken('token');
