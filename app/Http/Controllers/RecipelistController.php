@@ -54,7 +54,7 @@ class RecipelistController extends Controller
                 'name' => $request['name'], 
                 'user_id' => $user['id']
             ]);
-        }        
+        }     
     }
 
     /**
@@ -64,7 +64,10 @@ class RecipelistController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
+        // $user = Auth::id();
+        // $recipelist = Recipelist::where('id', $id);
+
         $saved = Saved::where('recipelist_id', $id)->get();
         $recipeIds = [];
 
