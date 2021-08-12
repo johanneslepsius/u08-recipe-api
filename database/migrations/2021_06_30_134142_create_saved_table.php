@@ -15,11 +15,12 @@ class CreateSavedTable extends Migration
     {
         Schema::create('saved', function (Blueprint $table) {
             // $table->unsignedBigInteger('user_id');
+            $table->id();
             $table->unsignedBigInteger('recipelist_id');
             $table->unsignedBigInteger('recipe_id');
             $table->timestamps();
 
-            $table->primary(['recipelist_id', 'recipe_id']);
+            // $table->primary(['recipelist_id', 'recipe_id']);
             // $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('recipelist_id')->references('id')->on('recipelists');
             $table->foreign('recipe_id')->references('id')->on('recipes');
