@@ -38,7 +38,7 @@ class SavedController extends Controller
         return Recipe::find($recipeIds);
     }
 
-    public function destroy(Saved $saved) {
-        return Saved::destroy($saved['id'])
+    public function destroy($id) {
+        return Saved::destroy($id);
     }
 }
