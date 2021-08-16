@@ -109,7 +109,8 @@ class RecipelistController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Recipelist $recipelist)
-    {
+    {   
+        Saved::where('recipelist_id', $recipelist['id'])->delete();
         return Recipelist::destroy($recipelist['id']);
     }
 }
