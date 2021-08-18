@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://wizardly-rosalind-3c4a14.netlify.app', 'https://epic-saha-e8aa9a.netlify.app', 'localhost'],
+    'allowed_origins' => ['https://wizardly-rosalind-3c4a14.netlify.app', 'https://epic-saha-e8aa9a.netlify.app', 'http://localhost:4200'],
 
     'allowed_origins_patterns' => [],
 
