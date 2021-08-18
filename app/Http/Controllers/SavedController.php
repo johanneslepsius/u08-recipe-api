@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class SavedController extends Controller
 {
     public function store(Request $request) {
-        $recipelist = Recipelist::where('name', $request['recipelist'])->firstOrFail();
+        $recipelist = Recipelist::where('id', $request['recipelist'])->firstOrFail();
         $recipe = Recipe::firstOrCreate(
             ['url' => $request['recipe_url']],
             [
