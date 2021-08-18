@@ -39,6 +39,6 @@ class SavedController extends Controller
     }
 
     public function destroy($id) {
-        return Saved::destroy($id);
+        return Saved::where('id', $id)->delete();
     }
 }
