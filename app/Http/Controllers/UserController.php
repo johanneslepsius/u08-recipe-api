@@ -84,7 +84,7 @@ class UserController extends Controller
         ]);
 
         Recipelist::create([
-            'name'=>'My first List',
+            'name'=>'My Recipes',
             'user_id'=>$user['id']
         ]);
 
