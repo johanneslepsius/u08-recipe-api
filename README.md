@@ -32,8 +32,8 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-* npm (7.1.3 in my case)
-* Docker (https://www.docker.com/get-started)
+* WSL2
+* [Docker for WSL2](https://docs.docker.com/desktop/windows/wsl/)
 
 ### Installation (on WSL2)
 
@@ -42,92 +42,46 @@ To get a local copy up and running follow these simple steps.
    git clone https://github.com/chas-academy/u08-recipe-api-johanneslepsius && cd u08-recipe-api-johanneslepsius
    ```
 2. Install Composer Dependencies [more info](https://laravel.com/docs/8.x/sail#installing-composer-dependencies-for-existing-projects)
+   If you copy the command from the docs, don't forget to remove the line breaks \
    ```sh
-   docker run --rm \ -u "$(id -u):$(id -g)" \ -v $(pwd):/opt \ -w /opt \ laravelsail/php80-composer:latest \ composer install --ignore-platform-reqs
+   docker run --rm -u "$(id -u):$(id -g)" -v $(pwd): /opt -w /opt laravelsail/php80-composer:latest composer install --ignore-platform-reqs
    ```
 4. Create environment file
    ```sh
    cp .env.example .env
    ```
-5. Create Sail alias, when i write sail from now on i expect you created the alias
+5. Start sail
    ```sh
-   alias sail="./bin/vendor/sail"
+    ./vendor/bin/sail up
    ```
-7. Create app encryption key
+6. Open another wsl tab and cd into project
+7. Create sail alias
+   ```sh
+   alias sail="./vendor/bin/sail"
+   ```
+8. Create app encryption key
    ```sh
    sail php artisan key:generate
    ```
+9. Navigate to "localhost:8080" in your browser and log in using the credentials from .env
+11. Verify that the database "recipe_api" exists, create it otherwise
+12. In the same terminal as before, migrate the database
+    ```sh
+    sail php artisan migrate
+    ```
 
-
+If you still can't make it work, take a look at [this article](https://medium.com/@achalaarunalu/setting-up-an-existing-laravel-8-sail-docker-project-on-windows-wsl2-and-ubuntu-20-04-f0def4210258).
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+You can see the available routes in /routes/api.php. Since this is an api, all requests start with /api/.
+To verify everything is working, send an example request like this, using ThunderClient / Postman / whatever:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-
-* []()
-* []()
-* []()
-
-
+localhost/api/register?name=nallebjorn&email=nalle@bjorn.se&password=nallebjorn
 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/github_username
 [recipe-app]: https://github.com/chas-academy/u07-recipe-app-johanneslepsius
