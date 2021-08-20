@@ -17,6 +17,8 @@
 
 In addition to [my Recipe-app][recipe-app] which simply shows you recipes from the [Edamam API](https://developer.edamam.com/edamam-recipe-api), this project lets you create an account, create lists and save your favourite recipes on them.
 
+Deployed version: https://ipa-epicer.herokuapp.com/
+
 
 ### Built With
 
